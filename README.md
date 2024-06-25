@@ -14,9 +14,15 @@ Script will download the 'jar' archive from the platform before re-pushing it fo
 
 - Spring boot application maven/gradle packaged usign the '-Pnative' flag and includes graalvm dependency
 
+`mvn clean package -Pnative`
+
 - Spring boot application running in cloud foundry, as a 'normal' staged JIT compiled application
 
+`cf push <appName>`
+
 - Script is run at prompt where cf cli is logged into cloud foundry already
+
+`cf-java-optimizer.sh <appName>`
 
 ### What script does
 
