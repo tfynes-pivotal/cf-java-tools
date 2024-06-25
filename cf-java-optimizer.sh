@@ -1,5 +1,12 @@
 #!/bin/bash
 
+
+# Script to take deployed 'hello world' spring boot JIT compiled app
+# running in cloud foundry (TAS6+) and restage a sibling version that's
+# natively compiled, deployed to same ingress route as original
+#
+# script sources the original jar from the platform
+
 if [ "$#" -ne 1 ];
   then 
      echo "Usage cf-java-optimizer.sh <app-name>" 
@@ -19,7 +26,7 @@ token=$(cf oauth-token)
 appguid=$(cf app $appname --guid)
 echo appguid = $appguid
 
-apppackageurl=$(cf curl /v3/apps/3f45c538-4d15-40e9-b828-4b7f08f8f0f9/packages | jq -r .resources[0].links.download.href)
+apppackageurl=$(cf curl /v3/apps/$appguid/packages | jq -r .resources[0].links.download.href)
 echo apppackageurl = $apppackageurl
 
 mkdir tmp
