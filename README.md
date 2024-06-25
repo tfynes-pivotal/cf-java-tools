@@ -31,4 +31,7 @@ Script will download the 'jar' archive from the platform before re-pushing it fo
 - scales memory down to just 32MB (8GB provided for native image compilation stager task)
 - maps native app to same route as original application
 
-  
+  ![image](https://github.com/tfynes-pivotal/cf-java-tools/assets/6810491/f6b48bd2-3b0e-4785-b978-e46a90da96cf)
+
+![image](https://github.com/tfynes-pivotal/cf-java-tools/assets/6810491/d50d6b29-0150-45b5-88b6-eec535fdd710)
+
