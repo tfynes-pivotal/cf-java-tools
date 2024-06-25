@@ -10,7 +10,7 @@ Script will download the 'jar' archive from the platform before re-pushing it fo
 
 ## Usage
 
-### Prerequisite 
+### Prerequisites
 
 - Spring boot application maven/gradle packaged usign the '-Pnative' flag and includes graalvm dependency
 
