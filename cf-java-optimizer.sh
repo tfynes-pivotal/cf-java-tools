@@ -15,7 +15,7 @@ fi
 
 appname=$1
 
-approute=$(cf app tdemo3 | grep routes | awk '{print $2}')
+approute=$(cf app $appname | grep routes | awk '{print $2}')
 ingressdomain="${approute#*.}"
 #echo ingressdomain = $ingressdomain
 
