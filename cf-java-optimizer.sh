@@ -7,10 +7,17 @@
 #
 # script sources the original jar from the platform
 
-if [ "$#" -ne 1 ];
+if [ "$#" -ne 1 ] && [ "$#" -ne 2 ];
   then 
-     echo "Usage cf-java-optimizer.sh <app-name>" 
+     echo "Usage cf-java-optimizer.sh <app-name> [<native-app-size (e.g. 32M)>]" 
      exit 1
+fi
+
+if [ ! -z "$2" ];
+  then
+     appsize=$2
+  else
+     appsize="32M"
 fi
 
 appname=$1
@@ -40,7 +47,7 @@ cf push "$appname-native" -p "$pathtojar" -b java_native_image_cnb_beta -s tanzu
 cf set-env "$appname-native" BP_MAVEN_ACTIVE_PROFILES native
 cf set-env "$appname-native" BP_JVM_VERSION 21
 cf start "$appname-native"
-cf scale "$appname-native" -m 32M -f
+cf scale "$appname-native" -m $appsize -f
 cf map-route "$appname-native" "$ingressdomain" --hostname $appname
 
 rm -f ./tmp/$appname.jar

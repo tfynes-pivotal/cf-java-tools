@@ -2,3 +2,5 @@
 **/Dockerfile
 **/.vscode/**
 **/samples/tdemo/target/**
+argtest.sh
+tmp/** 
