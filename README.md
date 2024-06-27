@@ -60,3 +60,10 @@ Hello world (tdemo) rest app and "Customer-Profile" spring data jpa sample appli
 
 ### Hello world rest app in 32MB on TAS
 
+. compile/package and 'cf push' sample application
+```
+pushd samples/tdemo
+mvn clean package -Pnative
+cf push tdemo -target ./target/tdemo-0.0.1-SNAPSHOT.jar
+popd
+```
