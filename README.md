@@ -12,7 +12,7 @@ Script will download the 'jar' archive from the platform before re-pushing it fo
 
 ### Prerequisites
 
-- Compile/package spring boot app with the '-Pnative' flag, including the graalvm maven dependency
+- Compile/package spring boot app with the _'-Pnative'_ flag, _including the graalvm maven dependency_
 
 `mvn clean package -Pnative`
 
