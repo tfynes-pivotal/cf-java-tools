@@ -1,3 +1,4 @@
 **/temp/*
 **/Dockerfile
 **/.vscode/**
+**/samples/tdemo/target/**
