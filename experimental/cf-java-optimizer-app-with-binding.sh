@@ -54,8 +54,8 @@ applications:
 EOF
 
 cf push -f ./tmp/manifest.yaml
-echo cf scale "$appname-native" -m 128M -f
-echo cf map-route "$appname-native" "$ingressdomain" --hostname $appname
+cf scale "$appname-native" -m 128M -f
+cf map-route "$appname-native" "$ingressdomain" --hostname $appname
 
 rm -f ./tmp/$appname.jar
 rmdir ./tmp

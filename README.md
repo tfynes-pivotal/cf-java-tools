@@ -64,7 +64,7 @@ Hello world (tdemo) rest app and "Customer-Profile" spring data jpa sample appli
 ```
 pushd samples/tdemo
 mvn clean package -Pnative
-cf push tdemo -target ./target/tdemo-0.0.1-SNAPSHOT.jar
+cf push tdemo -p ./target/tdemo-0.0.1-SNAPSHOT.jar
 popd
 ```
 
@@ -81,3 +81,9 @@ while true; do sleep 2 && curl https://tdemo.<app-domain>; done
 * 5-10minutes later the client will show responses being load-balanced
 across the JIT and natively compiled instances of the application.
 The native version will be running in just 32mb
+
+
+### Spring Data Rest Service on Postgres DB
+
+create 'customer-database' instance of postgres service
+cf create-service 

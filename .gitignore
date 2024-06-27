@@ -3,5 +3,5 @@
 **/.vscode/**
 **/samples/*/target/**
 argtest.sh
-tmp/**
+**/tmp/**
 **/.DS_Store
