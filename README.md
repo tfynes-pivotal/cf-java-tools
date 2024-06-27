@@ -52,3 +52,11 @@ What if I want to levergage an isolation segment for staging native images, prov
 - Script to copy a staged app from current org/space to new org/space
 
 `cf-copy-staged-app.sh <app name> <target org> <target space> <new app hostname> <target copy memory>`
+
+
+## DEMO SCRIPTS
+
+Hello world (tdemo) rest app and "Customer-Profile" spring data jpa sample applications included.
+
+### Hello world rest app in 32MB on TAS
+

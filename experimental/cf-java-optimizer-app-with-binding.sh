@@ -13,9 +13,13 @@ if [ "$#" -ne 1 ];
      exit 1
 fi
 
+servicename="customer-database"
+appexecutable="com.example.customerprofile.Application"
+
+
 appname=$1
 
-approute=$(cf app tdemo3 | grep routes | awk '{print $2}')
+approute=$(cf app $appname | grep routes | awk '{print $2}')
 ingressdomain="${approute#*.}"
 #echo ingressdomain = $ingressdomain
 
@@ -44,19 +48,14 @@ applications:
   path: $appname.jar
   buildpack: java_native_image_cnb_beta
   stack: tanzu-jammy-full-stack
-  command: "export SPRING_DATASOURCE_URL=\$(echo \$VCAP_SERVICES  | jq -r '.postgres[] | select(.name==\"customer-database\")' | jq -r .credentials.jdbcUrl) && ./com.example.customerprofile.Application"
+  command: "export SPRING_DATASOURCE_URL=\$(echo \$VCAP_SERVICES  | jq -r '.postgres[] | select(.name==\"$servicename\")' | jq -r .credentials.jdbcUrl) && ./$appexecutable"
   services:
     - customer-database
 EOF
 
-#cf push "$appname-native" -p "$pathtojar" -b java_native_image_cnb_beta -s tanzu-jammy-full-stack -m 8G --no-start -c "export SPRING_DATASOURCE_URL=\$(echo \$VCAP_SERVICES | jq -r '.postgres[] | select(.name==\"customer-database\")' | jq -r .credentials.jdbcUrl) && ./com.example.customerprofile.Application"
 cf push -f ./tmp/manifest.yaml
-#cf bind-service "$appname-native" "customer-database"
-#cf set-env "$appname-native" BP_MAVEN_ACTIVE_PROFILES native
-#cf set-env "$appname-native" BP_JVM_VERSION 21
-#cf start "$appname-native"
 echo cf scale "$appname-native" -m 128M -f
 echo cf map-route "$appname-native" "$ingressdomain" --hostname $appname
 
-#rm -f ./tmp/$appname.jar
-#rmdir ./tmp
+rm -f ./tmp/$appname.jar
+rmdir ./tmp
