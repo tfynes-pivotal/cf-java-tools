@@ -38,7 +38,9 @@ Script will download the 'jar' archive from the platform before re-pushing it fo
 
 - Script to push an application directly to TAS as a native image
 - Pushes the app, sets required BP* env-vars, resizes app after successful stage.
+
 `cf-npush.sh <app-name> <ingress-domain> <path-to-jar> <memory to allocate (eg 32M)>`
+
 e.g.
 `cf-npush.sh tdemo mycfdomain.com ./samples/tdemo/target/tdemo-0.0.1-SNAPSHOT.jar 32M`
 
