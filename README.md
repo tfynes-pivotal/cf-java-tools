@@ -85,5 +85,31 @@ The native version will be running in just 32mb
 
 ### Spring Data Rest Service on Postgres DB
 
-create 'customer-database' instance of postgres service
-cf create-service 
+* create 'customer-database' instance of postgres service
+```
+cf create-service postgres <plan-name> customer-database
+```
+
+* Deploy 'customer-profile' application
+```
+pushd samples/Customer-Profile
+mvn clean package -Pnative
+cf push customer-profile --no-start
+cf bind-service customer-profile customer-database
+cf start customer-profile
+```
+
+* Run a create operation on the data-service
+```
+curl https://customer-profile.<cf-domain>/api/customer-profiles -X POST -d '{"firstName":"Joe","lastName":"Soap","email":"a@b.com"}' -H "Content-Type: application/json"
+```
+
+* Setup looping read api request 
+```
+while true ; do sleep 5 && curl -s https://customer-profile.<cf-domain>/api/customer-profiles | jq . ; done
+```
+
+* run experimental optimizer script to deploy java native version of service, bound to same database, exposed on same route using just 128MB allocated memory.
+```
+./experimental/cf-java-optimizer-app-with-bindings.sh customer-profile
+```
