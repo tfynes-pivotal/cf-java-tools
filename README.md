@@ -47,6 +47,8 @@ e.g.
 `cf-npush.sh tdemo mycfdomain.com ./samples/tdemo/target/tdemo-0.0.1-SNAPSHOT.jar 32M`
 
 ### cf-copy-staged-app.sh
+What if I want to levergage an isolation segment for staging native images, providing cpu isolation and perhaps higher-cpu diego cells to optimize the compilation efforts. Stage applications natively in isolated high-cpu org/space then copy staged droplet to production org/space.
+
 - Script to copy a staged app from current org/space to new org/space
 
 `cf-copy-staged-app.sh <app name> <target org> <target space> <new app hostname> <target copy memory>`
