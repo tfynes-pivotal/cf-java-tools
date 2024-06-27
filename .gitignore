@@ -1,6 +1,6 @@
 **/temp/*
 **/Dockerfile
 **/.vscode/**
-**/samples/tdemo/target/**
+**/samples/*/target/**
 argtest.sh
 tmp/** 
