@@ -4,23 +4,23 @@
 
 ### cf-java-optimizer.sh
 
-Takes an java spring boot application running in cloud foundry and restage an deploy an adjacent natively compiled implementation, mapped to the same ingress route as the original
+Takes a java spring boot application running in cloud foundry and stages an adjacent natively-compiled implementation, mapped to the same ingress route as the original.
 
-Script will download the 'jar' archive from the platform before re-pushing it for staging with the native image buildpack
+Script will download the 'jar' archive from the platform before re-pushing it for staging with the native image buildpack.
 
 ## Usage
 
 ### Prerequisites
 
-- Spring boot application maven/gradle packaged usign the '-Pnative' flag and includes graalvm dependency
+- Compile/package spring boot app with the '-Pnative' flag, including the graalvm maven dependency
 
 `mvn clean package -Pnative`
 
-- Spring boot application running in cloud foundry, as a 'normal' staged JIT compiled application
+- Push to cloud foundry as a 'normal' staged JIT compiled application
 
 `cf push <appName>`
 
-- Script is run at prompt where cf cli is logged into cloud foundry already
+- Trigger script to co-deploy native optimized implementation
 
 `cf-java-optimizer.sh <appName>`
 
@@ -113,3 +113,6 @@ while true ; do sleep 5 && curl -s https://customer-profile.<cf-domain>/api/cust
 ```
 ./experimental/cf-java-optimizer-app-with-bindings.sh customer-profile
 ```
+
+* Results in dual implementations of the rest service, bound to same database instance, and ingress route.
+* NOTE: beta cnb-buildpack cannot directly bind to services "vcap_services" env-var in platform.. workaround uses custom launch command to create a spring_datasource_url env-var with value from vcap_services in the custom launch command.
