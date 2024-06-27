@@ -60,10 +60,24 @@ Hello world (tdemo) rest app and "Customer-Profile" spring data jpa sample appli
 
 ### Hello world rest app in 32MB on TAS
 
-. compile/package and 'cf push' sample application
+* compile/package and 'cf push' sample application
 ```
 pushd samples/tdemo
 mvn clean package -Pnative
 cf push tdemo -target ./target/tdemo-0.0.1-SNAPSHOT.jar
 popd
 ```
+
+* setup a loop testing the application endpoint
+```
+while true; do sleep 2 && curl https://tdemo.<app-domain>; done
+```
+
+* trigger optimizer script to parallel deploy a memory optimized instance on same route
+```
+./cf-java-optimizer.sh tdemo
+```
+
+* 5-10minutes later the client will show responses being load-balanced
+across the JIT and natively compiled instances of the application.
+The native version will be running in just 32mb
