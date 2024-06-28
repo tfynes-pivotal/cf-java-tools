@@ -4,7 +4,8 @@ cf push tdemo -p ./samples/tdemo/target/tdemo-0.0.1-SNAPSHOT.jar --no-start
 cf set-env tdemo JBP_CONFIG_OPEN_JDK_JRE "{\"jre\":{\"version\":\"21.+\"}}"
 cf start tdemo
 sleep 1
-curl https://tdemo.homelab.fynesy.com
+#curl https://tdemo.homelab.fynesy.com
+curl https://tdemo.apps.dhaka.cf-app.com
 sleep 1
 ./cf-java-optimizer.sh tdemo
 sleep 1
@@ -15,8 +16,11 @@ cf set-env customer-profile JBP_CONFIG_OPEN_JDK_JRE "{\"jre\":{\"version\":\"21.
 cf bs customer-profile customer-database
 cf start customer-profile
 sleep 1
-curl https://customer-profile.homelab.fynesy.com/api/customer-profiles
-curl https://customer-profile.homelab.fynesy.com/api/customer-profiles -X POST -d '{"firstName":"Mark","lastName":"Fynes","email":"a@b.com"}' -H "Content-Type: application/json"
+#curl https://customer-profile.homelab.fynesy.com/api/customer-profiles
+#curl https://customer-profile.homelab.fynesy.com/api/customer-profiles -X POST -d '{"firstName":"Mark","lastName":"Fynes","email":"a@b.com"}' -H "Content-Type: application/json"
+
+curl https://customer-profile.apps.dhaka.cf-app.com/api/customer-profiles
+curl https://customer-profile.apps.dhaka.cf-app.com/api/customer-profiles -X POST -d '{"firstName":"Mark","lastName":"Fynes","email":"a@b.com"}' -H "Content-Type: application/json"
 
 sleep 1
 ./experimental/cf-java-optimizer-app-with-binding.sh customer-profile
