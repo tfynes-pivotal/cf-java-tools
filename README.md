@@ -55,6 +55,7 @@ What if I want to levergage an isolation segment for staging native images, prov
 
 
 ## DEMO SCRIPTS
+(Modify app-name/hostname in 'deploy-demos.sh' and run to auto-deploy both demos and JIT and native compiled implementations)
 
 Hello world (tdemo) rest app and "Customer-Profile" spring data jpa sample applications included.
 
