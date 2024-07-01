@@ -42,7 +42,7 @@ ls tmp/
 
 pathtojar="./tmp/$appname.jar"
 
-
+export CF_STAGING_TIMEOUT=1800
 cf push "$appname-native" -p "$pathtojar" -b java_native_image_cnb_beta -s tanzu-jammy-full-stack -m 8G --no-start
 cf set-env "$appname-native" BP_MAVEN_ACTIVE_PROFILES native
 cf set-env "$appname-native" BP_JVM_VERSION 21

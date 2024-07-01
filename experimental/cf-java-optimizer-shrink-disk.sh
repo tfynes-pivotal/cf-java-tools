@@ -9,7 +9,7 @@
 
 if [ "$#" -ne 1 ];
   then 
-     echo "Usage cf-java-optimizer.sh <app-name>" 
+     echo "Usage cf-java-optimizer-shrink-disk.sh <app-name>" 
      exit 1
 fi
 

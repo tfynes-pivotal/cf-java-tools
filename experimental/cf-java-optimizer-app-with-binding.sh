@@ -53,6 +53,7 @@ applications:
     - customer-database
 EOF
 
+export CF_STAGING_TIMEOUT=1800
 cf push -f ./tmp/manifest.yaml
 sleep 10
 cf scale "$appname-native" -m 128M -f
