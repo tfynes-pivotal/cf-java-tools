@@ -1,2 +1,9 @@
 **/temp/*
 **/Dockerfile
+**/.vscode/**
+**/samples/*/target/**
+argtest.sh
+**/tmp/**
+**/.DS_Store
+t.sh
+experimental/cf-disk-optimizer.sh

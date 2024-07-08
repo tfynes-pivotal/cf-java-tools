@@ -1,4 +1,6 @@
+
 Build an OCI image from a droplet (EXPERIMENTAL long way to go! :)
+
 
 To build the Dockerfile for your TAS droplet run:
 `./buildDockerfile.sh -d <DROPLET>`
@@ -12,4 +14,5 @@ To build the container from the newly created Dockefile and push to your registr
 To test locally:
 `docker run <REGISTRY>/<IMAGE>:<TAG> -p 18080:8080`
 (docker run marygabry1508/cf-push:vcap -p 18080:8080)
+
 

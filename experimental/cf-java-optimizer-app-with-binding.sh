@@ -7,18 +7,15 @@
 #
 # script sources the original jar from the platform
 
-if [ "$#" -ne 1 ] && [ "$#" -ne 2 ];
+if [ "$#" -ne 1 ];
   then 
-     echo "Usage cf-java-optimizer.sh <app-name> [<native-app-size (e.g. 32M)>]" 
+     echo "Usage cf-java-optimizer.sh <app-name>" 
      exit 1
 fi
 
-if [ ! -z "$2" ];
-  then
-     appsize=$2
-  else
-     appsize="32M"
-fi
+servicename="customer-database"
+appexecutable="com.example.customerprofile.Application"
+
 
 appname=$1
 
@@ -40,15 +37,26 @@ mkdir tmp
 curl -s -L -H "Authorization: $token" $apppackageurl -o tmp/$appname.jar
 ls tmp/
 
-pathtojar="./tmp/$appname.jar"
+#pathtojar="./tmp/$appname.jar"
+
+cat << EOF > ./tmp/manifest.yaml
+---
+applications:
+- name: $appname-native
+  memory: 8G
+  instances: 1
+  path: $appname.jar
+  buildpack: java_native_image_cnb_beta
+  stack: tanzu-jammy-full-stack
+  command: "export SPRING_DATASOURCE_URL=\$(echo \$VCAP_SERVICES  | jq -r '.postgres[] | select(.name==\"$servicename\")' | jq -r .credentials.jdbcUrl) && ./$appexecutable"
+  services:
+    - customer-database
+EOF
 
 export CF_STAGING_TIMEOUT=1800
-cf push "$appname-native" -p "$pathtojar" -b java_native_image_cnb_beta -s tanzu-jammy-full-stack -m 8G --no-start
-cf set-env "$appname-native" BP_MAVEN_ACTIVE_PROFILES native
-cf set-env "$appname-native" BP_JVM_VERSION 21
-cf start "$appname-native"
-cf scale "$appname-native" -m $appsize -f
+cf push -f ./tmp/manifest.yaml
+sleep 10
+cf scale "$appname-native" -m 128M -f
 cf map-route "$appname-native" "$ingressdomain" --hostname $appname
 
-rm -f ./tmp/$appname.jar
-rmdir ./tmp
+rm -fr ./tmp
