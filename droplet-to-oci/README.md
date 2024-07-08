@@ -1,4 +1,4 @@
-Build an OCI image from a droplet
+Build an OCI image from a droplet (EXPERIMENTAL long way to go! :)
 
 To build the Dockerfile for your TAS droplet run:
 `./buildDockerfile.sh -d <DROPLET>`
