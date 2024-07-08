@@ -35,12 +35,11 @@ if [ $REQUIRED_FLAG_COUNTER != $REQUIRED_FLAG_COUNT ]; then
 fi
 
 if [ -f "$DROPLET" ]; then
-
     rm -rf $DIRECTORY
     mkdir $DIRECTORY
     cd $DIRECTORY 
     # Extracting droplet archive
-    echo "Extracting droplet archive"
+    echo "Extracting droplet archive $DROPLET"
     tar zxf ${DROPLET}
     cd ..
 else
@@ -55,9 +54,6 @@ FROM paketobuildpacks/run-jammy-base:latest
 
 EOF
 
-echo "ENV CF_INSTANCE_GUID=17800b52-2857-4b1c-7428-e2fc" >> ./Dockerfile
-echo "ENV CF_INSTANCE_INDEX=0" >> ./Dockerfile
-
 # Check if the directory exists
 if [ -d "$DIRECTORY" ]; then  
     # Loop through the contents of the directory and add to the Dockerfile
@@ -69,10 +65,13 @@ else
     echo "Directory $DIRECTORY does not exist."
 fi
 
+# set basic env vars from cf
+# export CF_INSTANCE_GUID=17800b52-2857-4b1c-7428-e2fc
+# export CF_INSTANCE_INDEX=0
 APPNAME=$(yq e '.start_command' $STAGINGINFO | xargs basename)
-APPNAME=$(basename $APPNAME)
-# echo "ENTRYPOINT [ \"/home/vcap/app/$APPNAME\" ]" >> ./Dockerfile
-echo "ENTRYPOINT [\"sh\", \"-c\", \"echo $CF_INSTANCE_GUID && echo $CF_INSTANCE_INDEX && exec /home/vcap/app/$APPNAME\" ]" >> ./Dockerfile
+cat >> ./Dockerfile << EOF
 
+ENTRYPOINT ["sh", "-c", "export CF_INSTANCE_GUID=17800b52-2857-4b1c-7428-e2fc && export CF_INSTANCE_INDEX=0 && exec /home/vcap/app/$APPNAME"]
+EOF
 echo "Built Dockerfile for: $(echo $APPNAME | awk -F. '{print $NF}')"
 
