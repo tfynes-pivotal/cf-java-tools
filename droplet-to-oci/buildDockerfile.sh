@@ -55,20 +55,24 @@ FROM paketobuildpacks/run-jammy-base:latest
 
 EOF
 
+echo "ENV CF_INSTANCE_GUID=17800b52-2857-4b1c-7428-e2fc" >> ./Dockerfile
+echo "ENV CF_INSTANCE_INDEX=0" >> ./Dockerfile
 
 # Check if the directory exists
 if [ -d "$DIRECTORY" ]; then  
     # Loop through the contents of the directory and add to the Dockerfile
     echo "Loop through the contents of the directory and add to the Dockerfile"
     for entry in "$DIRECTORY"/*; do
-        echo "ADD $entry /$(basename $entry)" >> ./Dockerfile
+        echo "ADD $entry /home/vcap/$(basename $entry)" >> ./Dockerfile
     done
 else
     echo "Directory $DIRECTORY does not exist."
 fi
 
-APPNAME=$(yq e '.start_command' $STAGINGINFO)
-echo "ENTRYPOINT [ \"$APPNAME\" ]" >> ./Dockerfile
+APPNAME=$(yq e '.start_command' $STAGINGINFO | xargs basename)
+APPNAME=$(basename $APPNAME)
+# echo "ENTRYPOINT [ \"/home/vcap/app/$APPNAME\" ]" >> ./Dockerfile
+echo "ENTRYPOINT [\"sh\", \"-c\", \"echo $CF_INSTANCE_GUID && echo $CF_INSTANCE_INDEX && exec /home/vcap/app/$APPNAME\" ]" >> ./Dockerfile
 
 echo "Built Dockerfile for: $(echo $APPNAME | awk -F. '{print $NF}')"
 
