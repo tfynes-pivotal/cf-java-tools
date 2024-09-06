@@ -15,7 +15,7 @@ cf set-env $prefix-tdemo JBP_CONFIG_OPEN_JDK_JRE "{\"jre\":{\"version\":\"21.+\"
 cf start $prefix-tdemo
 sleep 1
 #curl https://tdemo.homelab.fynesy.com
-curl https://$prefix-tdemo.apps.dhaka.cf-app.com
+#curl https://$prefix-tdemo.apps.dhaka.cf-app.com
 sleep 1
 ./cf-java-optimizer.sh $prefix-tdemo
 sleep 1
