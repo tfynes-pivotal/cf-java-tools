@@ -1,0 +1,315 @@
+{
+  "apiVersion": "tanzu.vmware.com/v1",
+  "kind": "SpringCloudGatewayRouteConfig",
+  "metadata": {
+    "name": "s-ca7d224a-9e93-4332-95e5-79e988628daa"
+  },
+  "spec": {
+    "openapi": {
+      "components": {
+        "schemas": {
+          "CustomerProfileCreateRequest": {
+            "required": [
+              "email"
+            ],
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              },
+              "lastName": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              },
+              "email": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              }
+            },
+            "exampleSetFlag": false,
+            "types": [
+              "object"
+            ]
+          },
+          "CustomerProfileResponse": {
+            "required": [
+              "email",
+              "id"
+            ],
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              },
+              "firstName": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              },
+              "lastName": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              },
+              "email": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              }
+            },
+            "exampleSetFlag": false,
+            "types": [
+              "object"
+            ]
+          },
+          "CustomerProfileChangeRequest": {
+            "required": [
+              "firstName",
+              "lastName"
+            ],
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              },
+              "lastName": {
+                "type": "string",
+                "exampleSetFlag": false,
+                "types": [
+                  "string"
+                ]
+              }
+            },
+            "exampleSetFlag": false,
+            "types": [
+              "object"
+            ]
+          }
+        },
+        "extensions": {}
+      },
+      "ref": "http://s-ca7d224a-9e93-4332-95e5-79e988628daa.cf-space-479e8228-c41b-476a-8f9e-2893eb7ab246.svc.cluster.local:8080/api-docs"
+    },
+    "routes": [
+      {
+        "filters": [
+          "StripPrefix=0"
+        ],
+        "model": {
+          "responses": {
+            "200": {
+              "description": "Customer profiles retrieved successfully.",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "array",
+                    "exampleSetFlag": false,
+                    "items": {
+                      "$ref": "#/components/schemas/CustomerProfileResponse",
+                      "exampleSetFlag": false
+                    },
+                    "types": [
+                      "array"
+                    ]
+                  },
+                  "exampleSetFlag": false
+                }
+              }
+            }
+          }
+        },
+        "predicates": [
+          "Path=/api/customer-profiles",
+          "Method=GET"
+        ],
+        "title": "Get all customer profiles."
+      },
+      {
+        "filters": [
+          "StripPrefix=0"
+        ],
+        "model": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerProfileCreateRequest",
+                  "exampleSetFlag": false
+                },
+                "exampleSetFlag": false
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "400": {
+              "description": "Passed customer profile is invalid.",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CustomerProfileResponse",
+                    "exampleSetFlag": false
+                  },
+                  "exampleSetFlag": false
+                }
+              }
+            },
+            "201": {
+              "description": "Customer profile successfully saved.",
+              "headers": {
+                "Location": {
+                  "description": "Contains path which can be used to retrieve saved profile. Last element is it's ID.",
+                  "required": true,
+                  "style": "SIMPLE",
+                  "explode": false,
+                  "schema": {
+                    "type": "string",
+                    "exampleSetFlag": false,
+                    "types": [
+                      "string"
+                    ]
+                  }
+                }
+              },
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CustomerProfileResponse",
+                    "exampleSetFlag": false
+                  },
+                  "exampleSetFlag": false
+                }
+              }
+            }
+          }
+        },
+        "predicates": [
+          "Path=/api/customer-profiles",
+          "Method=POST"
+        ],
+        "title": "Saves provided customer profile."
+      },
+      {
+        "filters": [
+          "StripPrefix=0"
+        ],
+        "model": {
+          "responses": {
+            "200": {
+              "description": "Customer profile retrieved successfully.",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CustomerProfileResponse",
+                    "exampleSetFlag": false
+                  },
+                  "exampleSetFlag": false
+                }
+              }
+            },
+            "404": {
+              "description": "Customer profile not found.",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CustomerProfileResponse",
+                    "exampleSetFlag": false
+                  },
+                  "exampleSetFlag": false
+                }
+              }
+            }
+          }
+        },
+        "predicates": [
+          "Path=/api/customer-profiles/{id}",
+          "Method=GET"
+        ],
+        "title": "Get customer profile."
+      },
+      {
+        "filters": [
+          "StripPrefix=0"
+        ],
+        "model": {
+          "responses": {
+            "200": {
+              "description": "Customer profile successfully deleted."
+            }
+          }
+        },
+        "predicates": [
+          "Path=/api/customer-profiles/{id}",
+          "Method=DELETE"
+        ],
+        "title": "Delete customer profile."
+      },
+      {
+        "filters": [
+          "StripPrefix=0"
+        ],
+        "model": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerProfileChangeRequest",
+                  "exampleSetFlag": false
+                },
+                "exampleSetFlag": false
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Customer profile successfully saved.",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CustomerProfileResponse",
+                    "exampleSetFlag": false
+                  },
+                  "exampleSetFlag": false
+                }
+              }
+            }
+          }
+        },
+        "predicates": [
+          "Path=/api/customer-profiles/{id}",
+          "Method=PATCH"
+        ],
+        "title": "Update customer profile."
+      }
+    ],
+    "service": {
+      "name": "s-ca7d224a-9e93-4332-95e5-79e988628daa",
+      "namespace": "cf-space-479e8228-c41b-476a-8f9e-2893eb7ab246"
+    }
+  }
+}

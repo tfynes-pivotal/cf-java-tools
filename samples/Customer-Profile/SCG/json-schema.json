@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Json Schema to validate Json request to OpenAPI SCG-K8s endpoint",
+  "title": "openapi-root",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "service": {
+      "title": "service",
+      "type": "object",
+      "anyOf": [
+        {
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "required": [
+            "uri"
+          ]
+        }
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "title": "namespace",
+          "type": "string",
+          "examples": [
+            "my-namespace"
+          ]
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "examples": [
+            "my-service"
+          ]
+        },
+        "port": {
+          "title": "port",
+          "type": "integer",
+          "examples": [
+            80
+          ]
+        },
+        "ssoEnabled": {
+          "title": "ssoEnabled",
+          "type": "boolean",
+          "examples": [
+            true
+          ]
+        },
+        "tokenRelay": {
+          "title": "tokenRelay",
+          "type": "boolean",
+          "examples": [
+            true
+          ]
+        },
+        "filters": {
+          "title": "filters",
+          "type": "array",
+          "default": [],
+          "items": {
+            "title": "items",
+            "type": "string",
+            "examples": [
+              "StripPrefix=1"
+            ]
+          }
+        },
+        "uri": {
+          "title": "uri",
+          "type": "string",
+          "examples": [
+            "http://localhost:8080/my-service"
+          ]
+        }
+      }
+    },
+    "openapi": {
+      "title": "openapi",
+      "type": "object",
+      "required": [
+        "location"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "location": {
+          "title": "location",
+          "type": "string",
+          "examples": [
+            "https://example.com/petstore/v3"
+          ]
+        }
+      }
+    },
+    "routes": {
+      "title": "routes",
+      "type": "array",
+      "default": [],
+      "items": {
+        "title": "items",
+        "type": "object",
+        "required": [
+          "predicates",
+          "filters"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "predicates": {
+            "title": "predicates",
+            "type": "array",
+            "default": [],
+            "items": {
+              "title": "items",
+              "type": "string",
+              "examples": [
+                "Method=GET"
+              ]
+            }
+          },
+          "filters": {
+            "title": "filters",
+            "type": "array",
+            "default": [],
+            "items": {
+              "title": "items",
+              "type": "string",
+              "examples": [
+                "RateLimit=2,10s"
+              ]
+            }
+          },
+          "ssoEnabled": {
+            "title": "ssoEnabled",
+            "type": "boolean",
+            "examples": [
+              true
+            ]
+          },
+          "tokenRelay": {
+            "title": "tokenRelay",
+            "type": "boolean",
+            "examples": [
+              true
+            ]
+          },
+          "order": {
+            "title": "order",
+            "type": "integer",
+            "examples": [
+              1
+            ]
+          },
+          "tags": {
+            "title": "tags",
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string",
+              "examples": [
+                "petstore-tag"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "openapi",
+    "service"
+  ],
+  "$id": "http://localhost:18080/json/schema"
+}

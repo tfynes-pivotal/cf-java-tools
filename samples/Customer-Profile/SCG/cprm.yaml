@@ -1,0 +1,11 @@
+apiVersion: tanzu.vmware.com/v1
+kind: SpringCloudGatewayMapping
+metadata:
+  name: cprm
+  namespace: default
+spec:
+  gatewayRef:
+    name: tdemo-gateway
+  routeConfigRef:
+    name: s-ca7d224a-9e93-4332-95e5-79e988628daa
+

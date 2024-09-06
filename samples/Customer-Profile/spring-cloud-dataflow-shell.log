@@ -1,0 +1,6 @@
+1721067593745:stream list
+1721067623094:stream destroy --name cf-2-uaa
+1721067680032:stream create --name c2u --definition ":cf-syslog > filter --expression=#jsonPath(payload,'$.syslog_APP_NAME').equals('uaa') > :uaa-syslog"
+1721067690529:stream destroy --name uaa-syslog2
+1721067699439:stream list
+1721068549923:quit
